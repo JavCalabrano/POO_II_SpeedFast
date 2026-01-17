@@ -2,23 +2,13 @@ package org.example.model;
 
 public class PedidoEncomiendas extends Pedido {
 
-    public PedidoEncomiendas(String idPedido, String tipoPedido, Direccion direccion) {
-        super(idPedido, tipoPedido = "ENCOMIENDA", direccion);
+    public PedidoEncomiendas(String idPedido, String tipoPedido, Direccion direccion, double distanciaKm) {
+        super(idPedido, tipoPedido = "ENCOMIENDA", direccion, distanciaKm);
     }
 
     @Override
-    public String asignarRepartidor () {
-
-        return tipoPedido + "--- Buscando repartidor espacio para su paquete ---\n" +
-                    "Se ha asignado repartidor\n";
-
-    }
-
-    @Override
-    public String asignarRepartidor (String nombreRepartidor) {
-
-        return tipoPedido + "--- Buscando repartidor espacio para su paquete ---\n" +
-                "Se ha asignado un repartidor " + nombreRepartidor + "\n";
-
+    public int calcTiempoEntrega() {
+        // se redondea el resultado final en la expresion de los minutos que entrega el calculo
+        return Math.toIntExact(Math.round(20 + (1.5 * distanciaKm)));
     }
 }

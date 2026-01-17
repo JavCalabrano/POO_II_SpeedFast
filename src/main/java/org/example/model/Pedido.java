@@ -1,22 +1,27 @@
 package org.example.model;
 
-public class Pedido {
+public abstract class Pedido {
 
     public String idPedido, tipoPedido;
+    public double distanciaKm;
     public Direccion direccion;
 
-    public Pedido(String idPedido, String tipoPedido, Direccion direccion) {
+    public Pedido(String idPedido, String tipoPedido, Direccion direccion, double  distanciaKm) {
         this.idPedido = idPedido;
         this.tipoPedido = tipoPedido;
         this.direccion = direccion;
+        this.distanciaKm = distanciaKm;
     }
 
-    public String asignarRepartidor() {
-        return "Se ha asignado repartidor exitosamente";
+    // === SE LLAMA AL METODO DE calcTiempoEntrega() PARA INCLUIR EN RESUMEN
+
+    public String mostrarResumen () {
+        return "Su " + tipoPedido + " nro:" + idPedido + " a sido ingresado.\n" +
+                "Direccion: " + direccion + "\n" +
+                "Distancia: " + distanciaKm + " km\n" +
+                "Tiempo estimado de entrega: " + calcTiempoEntrega() + "\n";
     }
 
-    public String asignarRepartidor(String nombreRepartidor) {
-        return "Se ha asignado repartidor " + nombreRepartidor + " exitosamente";
-    }
+    public abstract int calcTiempoEntrega();
 
 }

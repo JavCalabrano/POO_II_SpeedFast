@@ -19,4 +19,11 @@ public class Direccion {
         this.region = region;
         this.numero = numero;
     }
+
+    @Override
+    public String toString() {
+        String departamento = (dpto==null) ? "S/N" : dpto;
+
+        return calle + ", " + numero + ", dpto: " + departamento + ", " + comuna + ", " + region ;
+    }
 }

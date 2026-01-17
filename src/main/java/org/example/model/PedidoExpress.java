@@ -2,23 +2,16 @@ package org.example.model;
 
 public class PedidoExpress extends Pedido{
 
-    public PedidoExpress(String idPedido, String tipoPedido, Direccion direccion) {
-        super(idPedido, tipoPedido = "EXPRESS", direccion);
+    public PedidoExpress(String idPedido, String tipoPedido, Direccion direccion, double distanciaKm) {
+        super(idPedido, tipoPedido = "EXPRESS", direccion, distanciaKm);
     }
 
     @Override
-    public String asignarRepartidor () {
-
-        return tipoPedido + "--- Buscando repartidor más cercano ---\n" +
-                    "Se ha asignado a repartidor\n";
-
+    public int calcTiempoEntrega() {
+        // se crea la variable para almacenar la condicion y sumar
+        int extra = (distanciaKm > 5) ? 5 : 0;
+        return 10 + extra;
     }
 
-    @Override
-    public String asignarRepartidor (String nombreRepartidor) {
 
-        return tipoPedido + "--- Buscando repartidor más cercano ---\n" +
-                "Se ha asignado a repartidor " + nombreRepartidor + "\n";
-
-    }
 }

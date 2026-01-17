@@ -3,7 +3,6 @@ package org.example.ui;
 
 import org.example.model.*;
 
-import java.sql.SQLOutput;
 
 public class Main {
 
@@ -11,29 +10,26 @@ public class Main {
 
         // --- Creando objetos de Pedido para comprobar polimorfismo y sobre carga ---
         Pedido pedidoexpress = new PedidoExpress("001abc", "express",
-                new Direccion("las acacias", 2758, "la pintana", "metropolitana"));
+                new Direccion("las acacias", 2758, "la pintana", "metropolitana"),
+                5.3);
 
         Pedido pedidoEncomienda = new PedidoEncomiendas("010abc", "encomienda",
-                new Direccion("los nogales", 2563, "san bernardo", "metropolitana"));
+                new Direccion("los nogales", 2563, "a30", "san bernardo", "metropolitana"),
+                2.2);
 
         Pedido pedidoComida = new PedidoComida("100abc", "comida",
-                new Direccion("las acacias", 2758, "la pintana", "metropolitana"));
+                new Direccion("las acacias", 2758, "la pintana", "metropolitana"),
+                2);
 
 
-        // Pruebas de sobreescritura
-        System.out.println("PRUEBAS DE SOBREESCRITURA");
-        System.out.println();
-        System.out.println(pedidoexpress.asignarRepartidor());
-        System.out.println(pedidoEncomienda.asignarRepartidor());
-        System.out.println(pedidoComida.asignarRepartidor());
-        System.out.println();
+        // --- IMPRESION DE LOS PEDIDOS JUNTO CON LOS CALCULOS DE TIEMPO ---
+        // **METODO calcTiemporEntrega() ES LLAMADO DIECTAMENTE EN METODO mostrarResumen()**
 
+        System.out.println(pedidoComida.mostrarResumen());
 
-        // Pruebas de sobrecarga
-        System.out.println("PRUEBAS DE SOBRECARGA");
-        System.out.println(pedidoexpress.asignarRepartidor("Juanito Reyes"));
-        System.out.println(pedidoComida.asignarRepartidor("Anita la huerfanita"));
-        System.out.println(pedidoexpress.asignarRepartidor("Bad Bunny"));
+        System.out.println(pedidoexpress.mostrarResumen());
+
+        System.out.println(pedidoEncomienda.mostrarResumen());
 
     }
 }

@@ -1,5 +1,7 @@
 package org.example.model;
 
+import java.util.List;
+
 public abstract class Pedido {
 
     public String idPedido, tipoPedido;
@@ -24,4 +26,5 @@ public abstract class Pedido {
 
     public abstract int calcTiempoEntrega();
 
+    public abstract String asignarRepartidor(List<Repartidor> repartidores);
 }

@@ -4,8 +4,11 @@ import java.util.List;
 
 public class PedidoEncomiendas extends Pedido {
 
-    public PedidoEncomiendas(String idPedido, String tipoPedido, Direccion direccion, double distanciaKm) {
+    public double peso;
+
+    public PedidoEncomiendas(String idPedido, String tipoPedido, Direccion direccion, double distanciaKm, double peso) {
         super(idPedido, tipoPedido = "ENCOMIENDA", direccion, distanciaKm);
+        this.peso = peso;
     }
 
     @Override
@@ -15,15 +18,27 @@ public class PedidoEncomiendas extends Pedido {
     }
 
     @Override
-    public String asignarRepartidor(List<Repartidor> repartidores) {
-        Repartidor repartidorAsignado;
+    public String asignarRepartidor(List<Repartidor> repartidores, Pedido pedido) {
+        if (pedido.getRepartidor() == null) {
+            ControladorEnvios despacho = new ControladorEnvios();
 
-        for (Repartidor repartidor : repartidores) {
-            if (repartidor.transporte.equalsIgnoreCase("camioneta") && repartidor.libre) {
-                return "--- El pedido fue asignado a " + repartidor.nombre + ". ---\n";
+            for (Repartidor repartidor : repartidores) {
+                if (repartidor.transporte.equalsIgnoreCase("camioneta") && repartidor.libre) {
+                    despacho.despachar(repartidor, pedido);
+                    return "--- El pedido fue asignado a " + repartidor.getNombre() + ". ---\n";
+                }
             }
+
+            return "No hay socios repartidores por ahora espere unos minutos\n";
         }
 
-        return "No hay socios repartidores por ahora espere unos minutos\n";
+        return "--- El pedido fue asignado a " + pedido.getRepartidor() + " ---\n";
     }
+
+    public String asignarRepartidor(String nombre) {
+        repartidor = nombre;
+        estado = true;
+        return "--- El pedido fue asignado a " + nombre + ". ---\n";
+    }
+
 }

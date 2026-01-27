@@ -29,4 +29,8 @@ public class Repartidor {
     public double getDistanciaKm() {
         return distanciaKm;
     }
+
+    public void setLibre(boolean libre) {
+        this.libre = libre;
+    }
 }

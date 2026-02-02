@@ -19,12 +19,16 @@ public class PedidoExpress extends Pedido{
     public String asignarRepartidor(List<Repartidor> repartidores, Pedido pedido) {
 
         if (pedido.getRepartidor() == null) {
-
             ControladorEnvios despacho = new ControladorEnvios();
 
             for (Repartidor repartidor : repartidores) {
                 if (repartidor.transporte.equalsIgnoreCase("auto") && repartidor.libre) {
+                    pedido.setRepartidor(repartidor.getNombre());
+                    repartidor.setListaPedido(pedido);
                     despacho.despachar(repartidor, pedido);
+
+                    // Set de libre para simulacion de hilos
+                    repartidor.setLibre(true);
                     return "--- El pedido fue asignado a " + repartidor.getNombre() + ". ---\n";
                 }
             }

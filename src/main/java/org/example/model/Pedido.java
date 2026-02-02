@@ -5,7 +5,7 @@ import java.util.List;
 public abstract class Pedido {
 
     public String idPedido, tipoPedido, repartidor;
-    public double distanciaKm;
+    public double distanciaKm, peso;
     public Direccion direccion;
     public boolean estado, cancelado;
 
@@ -17,7 +17,20 @@ public abstract class Pedido {
         this.estado = false;
         this.cancelado = false;
         this.repartidor = null;
+        this.peso = 0;
     }
+
+    public Pedido(String idPedido, String tipoPedido, Direccion direccion, double distanciaKm, double peso) {
+        this.idPedido = idPedido;
+        this.tipoPedido = tipoPedido;
+        this.direccion = direccion;
+        this.distanciaKm = distanciaKm;
+        this.estado = false;
+        this.cancelado = false;
+        this.repartidor = null;
+        this.peso = peso;
+    }
+
 
 
     public String mostrarHistorial() {
@@ -33,7 +46,8 @@ public abstract class Pedido {
                     "Direccion: " + direccion + "\n" +
                     "Distancia: " + distanciaKm + " km\n" +
                     "Tiempo estimado de entrega: " + calcTiempoEntrega() + " minutos\n" +
-                    "Despachado correctamente por " + repartidor + "\n";
+                    "Su pedido fue entregado por " + repartidor + "\n" +
+                    "-------------------------\n";
         }
 
         if (verificarCancelado()){
@@ -43,6 +57,8 @@ public abstract class Pedido {
         return "Su pedido " + idPedido + "está esperando socio repartidor para asignar su despacho\n";
     }
 
+
+    // Metodos de verficacion
     public boolean verificarEstado(){
         if (estado){
             return true;
@@ -57,10 +73,41 @@ public abstract class Pedido {
         return false;
     }
 
+    // Metodo que transforma el objeto Pedido en el correspondiente al tipo especificado en el String.tipoPedido (creado por si se saca tipo abstracto de Pedido)
+    public void tipoPedido(List<Pedido> pedidos) {
+        for (Pedido pedido : pedidos) {
+            String tipo = pedido.tipoPedido;
+            switch (tipo){
+                case "comida":
+                    Pedido comida = new PedidoComida(pedido.idPedido, pedido.tipoPedido, pedido.direccion, pedido.distanciaKm);
+                    pedido=comida;
+                    break;
+
+                case "express":
+                    Pedido express = new PedidoExpress(pedido.idPedido, pedido.tipoPedido, pedido.direccion, pedido.distanciaKm);
+                    pedido=express;
+                    break;
+                case "encomienda":
+                    Pedido encomienda = new PedidoEncomiendas(pedido.idPedido, pedido.tipoPedido, pedido.direccion, pedido.distanciaKm, pedido.peso);
+                    pedido=encomienda;
+                    break;
+
+                default:
+                    System.out.println("Tipo de pedido mal registrado");
+                    break;
+
+            }
+        }
+    }
+
+
+    // Metodos requerimiento de proyecto
     public abstract int calcTiempoEntrega();
 
     public abstract String asignarRepartidor(List<Repartidor> repartidores, Pedido pedido);
 
+
+    // GETTERS & SETTERS
     public void setEstado(boolean estado) {
         this.estado = estado;
     }

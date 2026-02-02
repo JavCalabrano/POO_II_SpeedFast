@@ -7,8 +7,7 @@ public class PedidoEncomiendas extends Pedido {
     public double peso;
 
     public PedidoEncomiendas(String idPedido, String tipoPedido, Direccion direccion, double distanciaKm, double peso) {
-        super(idPedido, tipoPedido = "ENCOMIENDA", direccion, distanciaKm);
-        this.peso = peso;
+        super(idPedido, tipoPedido = "ENCOMIENDA", direccion, distanciaKm, peso);
     }
 
     @Override
@@ -24,7 +23,12 @@ public class PedidoEncomiendas extends Pedido {
 
             for (Repartidor repartidor : repartidores) {
                 if (repartidor.transporte.equalsIgnoreCase("camioneta") && repartidor.libre) {
+                    pedido.setRepartidor(repartidor.getNombre());
+                    repartidor.setListaPedido(pedido);
                     despacho.despachar(repartidor, pedido);
+
+                    // Set de libre para simulacion de hilos
+                    repartidor.setLibre(true);
                     return "--- El pedido fue asignado a " + repartidor.getNombre() + ". ---\n";
                 }
             }

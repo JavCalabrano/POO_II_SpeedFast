@@ -17,18 +17,26 @@ public class PedidoComida extends Pedido {
     @Override
     public String asignarRepartidor(List<Repartidor> repartidores, Pedido pedido) {
 
+        ControladorEnvios despacho = new ControladorEnvios();
+
         if (pedido.getRepartidor() == null) {
-            ControladorEnvios despacho = new ControladorEnvios();
 
             for (Repartidor repartidor : repartidores) {
                 if (repartidor.mochilaTermica && repartidor.libre) {
+                    pedido.setRepartidor(repartidor.getNombre());
+                    repartidor.setListaPedido(pedido);
                     despacho.despachar(repartidor, pedido);
+
+                    // Set de libre para simulacion de hilos
+                    repartidor.setLibre(true);
                     return "--- El pedido fue asignado a " + repartidor.getNombre() + ". ---\n";
                 }
             }
 
             return "No hay socios repartidores por ahora espere unos minutos\n";
         }
+
+        despacho.despachar(new Repartidor(pedido.getRepartidor(), "auto", false, true, 5.2), pedido);
 
         return "--- El pedido fue asignado a " + pedido.getRepartidor() + " ---\n";
     }

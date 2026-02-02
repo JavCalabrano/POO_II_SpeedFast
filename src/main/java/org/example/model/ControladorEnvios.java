@@ -10,12 +10,15 @@ import java.util.List;
 public class ControladorEnvios implements Cancelable, Rastreable, Despachable {
 
     public static List<Pedido> historialPedidos = new ArrayList<>();
+    public static List<Repartidor> repartidores = new ArrayList<>();
 
 
 
     public static void agregarPedidoHistorial(Pedido pedido) {
         historialPedidos.add(pedido);
     }
+
+    public static void agregarRepartidorLista(Repartidor repartidor) {repartidores.add(repartidor); }
 
     @Override
     public void cancelar(Pedido pedido) {
@@ -32,5 +35,13 @@ public class ControladorEnvios implements Cancelable, Rastreable, Despachable {
     @Override
     public List<Pedido> verHistorial() {
         return historialPedidos;
+    }
+
+    public static List<Pedido> getHistorialPedidos() {
+        return historialPedidos;
+    }
+
+    public static List<Repartidor> getRepartidores() {
+        return repartidores;
     }
 }

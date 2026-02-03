@@ -101,12 +101,6 @@ public class Main {
             pedido.asignarRepartidor(listaRepartidores, pedido);
         }
 
-        // Imprimo historial de pedidos para revision con la entrega en consola, que verifique sea la misma cantidad y pedidos correspondientes
-        for (Pedido p : historialPedidos){
-            System.out.println(p.mostrarHistorial());
-        }
-        System.out.println(""); // salto de línea
-
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
         executor.submit(moto);
@@ -115,8 +109,12 @@ public class Main {
 
         executor.shutdown();
 
-
-
+        // Imprimo historial de pedidos para revision con la entrega en consola, que verifique sea la misma cantidad y pedidos correspondientes
+        System.out.println(""); //salto de linea
+        System.out.println("Imprimo el historial de pedido ");
+        for (Pedido p : historialPedidos){
+            System.out.println(p.mostrarHistorial());
+        }
 
 
 

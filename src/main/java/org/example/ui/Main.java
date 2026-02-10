@@ -36,7 +36,7 @@ public class Main {
                 new Direccion("El abrazo", 9746, "Maipu", "metropolitana"),
                 5.6);
         despacho.agregarPedidoHistorial(pedidoExpress4);
-        Pedido pedidoExpress5 = new PedidoExpress("020abd", "express",
+        Pedido pedidoExpress5 = new PedidoExpress("050abd", "express",
                 new Direccion("Caupolican", 2365, "Ranco", "Lagos"),
                 11);
         despacho.agregarPedidoHistorial(pedidoExpress5);
@@ -50,11 +50,11 @@ public class Main {
                 new Direccion("Isidora Goyenechea", 1245, "a30", "Las condes", "Metropolitana"),
                 20, 15.7);
         ControladorEnvios.agregarPedidoHistorial(pedidoEncomienda2);
-        Pedido pedidoEncomienda3 = new PedidoEncomiendas("131abc", "encomienda",
+        Pedido pedidoEncomienda3 = new PedidoEncomiendas("133abc", "encomienda",
                 new Direccion("Entre Lagos", 303, "Osorno", "Los Lagos"),
                 24, 30);
         ControladorEnvios.agregarPedidoHistorial(pedidoEncomienda3);
-        Pedido pedidoEncomienda4 = new PedidoEncomiendas("131abc", "encomienda",
+        Pedido pedidoEncomienda4 = new PedidoEncomiendas("135abc", "encomienda",
                 new Direccion("Siempre viva", 555, "Vichulquen", "Valparaiso"),
                 26.1, 23.1);
         ControladorEnvios.agregarPedidoHistorial(pedidoEncomienda4);
@@ -94,12 +94,9 @@ public class Main {
 
         //Creo lista para uso de objetos almacenados
         List<Pedido> historialPedidos = despacho.verHistorial();
-        List<Repartidor> listaRepartidores = despacho.getRepartidores();
 
-        // Asignación automatica de pedidos
-        for (Pedido pedido : historialPedidos) {
-            pedido.asignarRepartidor(listaRepartidores, pedido);
-        }
+        ZonaDeCarga zonaDeCarga = new ZonaDeCarga(historialPedidos);
+
 
         ExecutorService executor = Executors.newFixedThreadPool(3);
 
@@ -109,12 +106,6 @@ public class Main {
 
         executor.shutdown();
 
-        // Imprimo historial de pedidos para revision con la entrega en consola, que verifique sea la misma cantidad y pedidos correspondientes
-        System.out.println(""); //salto de linea
-        System.out.println("Imprimo el historial de pedido ");
-        for (Pedido p : historialPedidos){
-            System.out.println(p.mostrarHistorial());
-        }
 
 
 

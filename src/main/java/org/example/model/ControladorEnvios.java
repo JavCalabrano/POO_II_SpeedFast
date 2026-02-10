@@ -3,6 +3,7 @@ package org.example.model;
 import org.example.interfaces.Cancelable;
 import org.example.interfaces.Despachable;
 import org.example.interfaces.Rastreable;
+import org.example.util.EstadoPedido;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ControladorEnvios implements Cancelable, Rastreable, Despachable {
     @Override
     public void despachar(Repartidor repartidor, Pedido pedido) {
         pedido.setRepartidor(repartidor.getNombre());
-        pedido.setEstado(true);
+        pedido.setEstado(EstadoPedido.EN_REPARTO);
         repartidor.setLibre(false);
     }
 

@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.util.EstadoPedido;
+
 import java.util.List;
 
 public abstract class Pedido {
@@ -7,14 +9,15 @@ public abstract class Pedido {
     public String idPedido, tipoPedido, repartidor;
     public double distanciaKm, peso;
     public Direccion direccion;
-    public boolean estado, cancelado;
+    public boolean cancelado;
+    public EstadoPedido estado;
 
     public Pedido(String idPedido, String tipoPedido, Direccion direccion, double distanciaKm) {
         this.idPedido = idPedido;
         this.tipoPedido = tipoPedido;
         this.direccion = direccion;
         this.distanciaKm = distanciaKm;
-        this.estado = false;
+        this.estado =  EstadoPedido.PENDIENTE;
         this.cancelado = false;
         this.repartidor = null;
         this.peso = 0;
@@ -25,7 +28,7 @@ public abstract class Pedido {
         this.tipoPedido = tipoPedido;
         this.direccion = direccion;
         this.distanciaKm = distanciaKm;
-        this.estado = false;
+        this.estado = EstadoPedido.PENDIENTE;
         this.cancelado = false;
         this.repartidor = null;
         this.peso = peso;
@@ -34,7 +37,8 @@ public abstract class Pedido {
 
 
     public String mostrarHistorial() {
-        return "El pedido " + idPedido + " tipo " + tipoPedido + " fue " + (cancelado ? "cancelado" : estado ? "entregado por " + repartidor : "esperando repartidor");
+        return "El pedido " + idPedido + " tipo " + tipoPedido + " fue " + (cancelado ? "cancelado" : estado==EstadoPedido.DESPACHADO ? "entregado por " + repartidor :
+                estado==EstadoPedido.EN_REPARTO ? "Pedido en ruta" : "Esperando repartidor");
     }
 
 
@@ -60,7 +64,7 @@ public abstract class Pedido {
 
     // Metodos de verficacion
     public boolean verificarEstado(){
-        if (estado){
+        if (estado== EstadoPedido.EN_REPARTO){
             return true;
         }
         return false;
@@ -108,7 +112,9 @@ public abstract class Pedido {
 
 
     // GETTERS & SETTERS
-    public void setEstado(boolean estado) {
+
+
+    public void setEstado(EstadoPedido estado) {
         this.estado = estado;
     }
 
@@ -126,6 +132,10 @@ public abstract class Pedido {
 
     public String asignarRepartidor(String nombre) {
         return null;
+    }
+
+    public String getIdPedido() {
+        return idPedido;
     }
 }
 

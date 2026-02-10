@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.util.EstadoPedido;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,26 +26,32 @@ public class Repartidor implements Runnable {
     // Metodo Runnable
     public void run() {
 
-        listaPedido = getListaPedido();
-        List<Repartidor> listaRepartidores = ControladorEnvios.getRepartidores();
+        boolean ciclo = true;
+        do {
 
-        for (Pedido pedido : listaPedido) {
+            Pedido pedido = ZonaDeCarga.retirarPedidos();
+
+            if (pedido == null) {
+                System.out.println("Todos los pedidos han sido entregados. Cerrando el chiringuito");
+                ciclo = false;
+            }
+
             try {
-                long pausa = (long) (Math.random() * 6000);
-                Thread.sleep(pausa);
 
-                System.out.println(pedido.mostrarResumen());
-                for (Repartidor repartidor : listaRepartidores){
-                    if (pedido.getRepartidor().equalsIgnoreCase(repartidor.getNombre())){
-                        repartidor.setLibre(true);
-                    }
-                }
+                Thread.sleep(2000 + (int)(Math.random() * 3000));
+                pedido.setEstado(EstadoPedido.DESPACHADO);
+                System.out.println(pedido.mostrarHistorial());
 
-            } catch (Exception e) {
-                System.out.println("Error al entregar su pedido");
+            } catch (InterruptedException e) {
+                System.out.println("Simulacion de entrega interrumpida");
                 throw new RuntimeException(e);
             }
-        }
+
+
+        }while (ciclo);
+
+
+
 
     }
 

@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.util.EstadoPedido;
+
 import java.util.List;
 
 public class PedidoExpress extends Pedido{
@@ -41,7 +43,7 @@ public class PedidoExpress extends Pedido{
 
     public String asignarRepartidor(String nombre) {
         repartidor = nombre;
-        estado = true;
+        estado = EstadoPedido.EN_REPARTO;
         return "--- El pedido fue asignado a " + nombre + ". ---\n";
     }
 
